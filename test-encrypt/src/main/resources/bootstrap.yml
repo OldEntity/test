@@ -1,0 +1,28 @@
+spring:
+  cloud:
+    config:
+      server:
+        encrypt:
+          enabled: true
+        git:
+          username: 2034002539@qq.com
+          password: '{cipher}89eb3a130879c010429fc6e18ce0ec34919583bf15e579de321c6f3fadae4d69'
+          search-paths: mypath
+          uri: https://github.com/OldEntity/MyConfig.git
+      label: master
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
+encrypt:
+  key: foo
+#endpoints:
+#  bus:
+#    enabled: true
+#    sensitive: false
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: 114.116.113.211:7001

@@ -1,0 +1,12 @@
+spring:
+  #对应仓库的配置文件名字
+#  application:
+#    name: hello
+  cloud:
+    config:
+      name: hello
+      # 指明配置服务中心的网址
+      uri: http://lishuo:learnli@localhost:6001/
+      # dev 开发环境配置文件 |  test 测试环境  |  pro 正式环境
+      profile: test
+      label: master

@@ -1,0 +1,19 @@
+server:
+  port: 7001
+
+spring:
+  application:
+    name: config-server
+  security:
+    user:
+      name: lishuo
+      password: learnli
+
+endpoints:
+  refresh:
+    enabled: true
+    sensitive: false
+eureka:
+  client:
+    service-url:
+      defaultZone: http://114.116.113.211:7001/eureka

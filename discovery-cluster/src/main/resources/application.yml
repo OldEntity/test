@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: discoverycluster-cluster
+
+---
+spring:
+  profiles: discovery1
+server:
+  port: 7001
+eureka:
+  instance:
+    hostname: eureka7001.com
+  client:
+    service-url:
+      default-zone: http://eureka7002.com:7002/eureka
+
+---
+spring:
+  profiles: discovery2
+server:
+  port: 7002
+eureka:
+  instance:
+    hostname: eureka7002.com
+  client:
+    service-url:
+      default-zone: http://eureka7001.com:7001/eureka
+
