@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/test-encrypt/pom.xml" />
         <option value="$PROJECT_DIR$/test-zuul/pom.xml" />
         <option value="$PROJECT_DIR$/test-shiro/pom.xml" />
+        <option value="$PROJECT_DIR$/test-websocket/pom.xml" />
       </list>
     </option>
   </component>

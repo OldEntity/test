@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/test-config/test-config.iml" filepath="$PROJECT_DIR$/test-config/test-config.iml" />
       <module fileurl="file://$PROJECT_DIR$/test-encrypt/test-encrypt.iml" filepath="$PROJECT_DIR$/test-encrypt/test-encrypt.iml" />
       <module fileurl="file://$PROJECT_DIR$/test-shiro/test-shiro.iml" filepath="$PROJECT_DIR$/test-shiro/test-shiro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test-websocket/test-websocket.iml" filepath="$PROJECT_DIR$/test-websocket/test-websocket.iml" />
       <module fileurl="file://$PROJECT_DIR$/test-zuul/test-zuul.iml" filepath="$PROJECT_DIR$/test-zuul/test-zuul.iml" />
     </modules>
   </component>
