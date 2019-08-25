@@ -6,12 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="test-shiro" />
-        <module name="discovery-cluster" />
-        <module name="test-config" />
-        <module name="test-zuul" />
-        <module name="test-encrypt" />
-        <module name="test-websocket" />
+        <module name="test-httpclient" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -19,6 +14,8 @@
       <module name="test-config" target="1.8" />
       <module name="test-config-server" target="1.8" />
       <module name="test-encrypt" target="1.8" />
+      <module name="test-httpclient" target="1.8" />
+      <module name="test-java" target="1.8" />
       <module name="test-shiro" target="1.8" />
       <module name="test-websocket" target="1.8" />
       <module name="test-zuul" target="1.8" />
@@ -30,6 +27,8 @@
       <module name="test-config" options="-parameters" />
       <module name="test-config-server" options="-parameters" />
       <module name="test-encrypt" options="" />
+      <module name="test-httpclient" options="-parameters" />
+      <module name="test-java" options="-parameters" />
       <module name="test-shiro" options="-parameters" />
       <module name="test-websocket" options="-parameters" />
       <module name="test-zuul" options="-parameters" />

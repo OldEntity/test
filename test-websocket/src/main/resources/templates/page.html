@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Testing websockets</title>
+</head>
+<body>
+<div>
+    <input type="button" value="开始" th:onclick="start()" />
+    <input type="button" value="选择图片" th:onclick="clickImage()">
+
+    <form enctype="multipart/form-data" novalidate="novalidate" id="newImagesForm" method="post">
+        <input
+                id="filechange"
+                style="width:1px;height: 1px"
+                type="file"
+                multiple="multiple"
+                onchange="upload(this)"
+                accept="application/msword,image/jpeg,image/jpg,image/png,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        />
+    </form>
+</div>
+<div id="messages"></div>
+
+<script>
+    function clickImage(){
+        var image=document.getElementById("filechange");
+        image.click();
+    }
+
+    /**
+     * 根据流⽔号查询影像信息的接⼝
+     */
+    function getPicInfos(businessSerialNo, callback) {
+        ajax({ url: "imageUploadServices/" + businessSerialNo, type: "get" }).done(
+            function(res) {
+                if (res.status == "200") {
+                    callback(res);
+                }
+            }
+        );
+    }
+    function upload(obj) {
+        console.log(obj);
+        getPicInfos(BusinessSerialNo, function (res) {
+            g_curBatchNo = res.data.batchId;
+            for (var i = 0, len = obj.files.length; i < len; i++) {
+                (function (i) {
+                    var f = obj.files[i];
+                    if (f.type.indexOf("image") == -1) {
+                        var sendFile = {
+                            file: f,
+                            batchId: g_curBatchNo,
+                            fileId: guid()
+                        };
+
+
+                        uploadFiles(sendFile, function (ret) {
+
+                            var fileExt = sendFile.file.name.substring(sendFile.file.name.lastIndexOf('.'));
+                            var url = "";
+                            if (fileExt === ".xlsx" || fileExt === ".xls") {
+                                url = "./img/excel.png";
+                            } else if (fileExt === ".doc" || fileExt === ".docx") {
+                                url = "./img/word.png";
+                            } else if (fileExt === ".ppt" || fileExt === ".pptx") {
+                                url = "./img/ppt.png";
+                            } else if (fileExt === ".pdf") {
+                                url = "./img/pdf.png";
+                            }
+                            var objDestination = {
+                                fileId: sendFile.fileId,
+                                base64: "",
+                                url: ret.data,
+                                source: "upload",
+                                fileName: sendFile.file.name,
+                                batchId: g_curBatchNo,
+                                businessserialno: BusinessSerialNo,
+                                base64: url,
+                                ischecked: 1,
+                                fileext: fileExt
+                            };
+
+                            $.tmpl("tmpl_imgCard", objDestination).appendTo("#picarea ol");
+
+                        });
+                    } else {
+                        var src = window.URL.createObjectURL(f);
+                        console.log("src" + src);
+                        var size = f.size / 1024;
+                        var compressRate = (2048 * 1000) / f.size;
+                        var img = new Image();
+                        img.src = src;
+                        img.crossOrigin = "Anonymous";
+
+                        img.onload = function () {
+
+                            EXIF.getData(this, function () {
+                                var o = EXIF.getTag(this, "Orientation");
+                                var width = (natureSizeW = this.width);
+                                var height = (natureSizeH = this.height);
+                                var data = {
+                                    o: o,
+                                    width: width,
+                                    height: height
+                                };
+                                var drawWidth = data.width;
+                                var drawHeight = data.height;
+                                data.width = drawWidth;
+                                data.height = drawHeight;
+                                var c = document.createElement("canvas");
+                                var ctx = c.getContext("2d");
+                                if ([5, 6, 7, 8].indexOf(data.o) > -1) {
+                                    c.width = data.height;
+                                    c.height = data.width;
+                                } else {
+                                    c.width = data.width;
+                                    c.height = data.height;
+                                }
+                                if (data.o) {
+                                    var width = data.width;
+                                    var height = data.height;
+                                    switch (data.o) {
+                                        case 2:
+                                            ctx.transform(-1, 0, 0, 1, width, 0);
+                                            break;
+                                        case 3:
+                                            ctx.transform(-1, 0, 0, -1, width, height);
+                                            break;
+                                        case 4:
+                                            ctx.transform(1, 0, 0, -1, 0, height);
+                                            break;
+                                        case 5:
+                                            ctx.transform(0, 1, 1, 0, 0, 0);
+                                            break;
+                                        case 6:
+                                            ctx.transform(0, 1, -1, 0, height, 0);
+                                            break;
+                                        case 7:
+                                            ctx.transform(0, -1, -1, 0, height, width);
+                                            break;
+                                        case 8:
+                                            ctx.transform(0, -1, 1, 0, 0, width);
+                                            break;
+                                        default:
+                                            ctx.transform(1, 0, 0, 1, 0, 0);
+                                            break;
+                                    }
+                                }
+                                //  ctx.rotate((-90 * Math.PI) / 180);
+                                ctx.drawImage(img, 0, 0, drawWidth, drawHeight);
+
+                                imgBase = c.toDataURL("image/jpeg", 1);
+                                switch (true) {
+                                    case size < 200:
+                                        base64 = c.toDataURL("image/jpeg", 1);
+                                        break;
+                                    case size >= 200 && size < 1000:
+                                        base64 = c.toDataURL("image/jpeg", 0.4);
+                                        break;
+                                    case size >= 1000 && size < 2000:
+                                        base64 = c.toDataURL("image/jpeg", 0.2);
+                                        break;
+                                    case size >= 2000 && size < 5000:
+                                        base64 = c.toDataURL("image/jpeg", 0.08);
+                                        break;
+                                    case size >= 5000:
+                                        base64 = c.toDataURL("image/jpeg", compressRate);
+                                        break;
+                                }
+                                var mfileId = guid();
+
+                                var objDestination = {
+                                    fileId: mfileId,
+                                    base64: base64,
+                                    source: "upload",
+                                    fileName: f.name,
+                                    batchId: g_curBatchNo,
+                                    businessserialno: BusinessSerialNo,
+                                    url: "",
+                                    ischecked: 0
+                                };
+
+                                $.tmpl("tmpl_imgCard", objDestination).appendTo("#picarea ol");
+
+                                base64 = base64.replace("data:image/jpeg;base64,", "");
+
+                                var objmsg = {
+                                    InterFace: "Transmission_WebToLocal",
+                                    FileId: mfileId,
+                                    BatchID: g_curBatchNo,
+                                    FileName: f.name,
+                                    BusinessSerialNo: BusinessSerialNo,
+                                    ScantType: scantype,
+                                    Base64: base64
+                                };
+
+                                ws.send(JSON.stringify(objmsg));
+                            });
+
+                            // $("#imgUpload").attr("src", imgBase);
+                        };//end of onload
+                    }
+
+                })(i, obj);
+
+            }
+        }); //end of getPicInfos
+    }
+
+
+
+    var webSocket = new WebSocket('ws://localhost:9001/webLearnLi');
+    webSocket.onerror = function(event) {
+        onError(event)
+    };
+
+    webSocket.onopen = function(event) {
+        onOpen(event)
+    };
+
+    webSocket.onmessage = function(event) {
+        onMessage(event);
+    };
+
+    function onMessage(event) {
+        document.getElementById('messages').innerHTML
+            += '<br />' + event.data;
+    }
+
+    function onOpen(event) {
+        document.getElementById('messages').innerHTML= '您已连接连接';
+    }
+
+    function onError(event) {
+        alert(event.data);
+    }
+    function start() {
+        console.log("发送请求：");
+        webSocket.send('hello');
+
+    }
+
+</script>
+</body>
+</html>
