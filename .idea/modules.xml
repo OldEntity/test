@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/test.iml" filepath="$PROJECT_DIR$/.idea/test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test-httpclient/test-httpclient.iml" filepath="$PROJECT_DIR$/test-httpclient/test-httpclient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test-webservice-client/test-webservice-client.iml" filepath="$PROJECT_DIR$/test-webservice-client/test-webservice-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test-webservice-server/test-webservice-server.iml" filepath="$PROJECT_DIR$/test-webservice-server/test-webservice-server.iml" />
     </modules>
   </component>
 </project>

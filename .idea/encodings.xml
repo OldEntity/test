@@ -7,6 +7,12 @@
     <file url="file://$PROJECT_DIR$/test-httpclient" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-shiro" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test-webservice-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test-webservice-client/src/main/java/client/Hello.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/test-webservice-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test-webservice-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test-webservice-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test-webservice-test" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-websocket" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-zuul" charset="UTF-8" />
   </component>
