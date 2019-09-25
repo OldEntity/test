@@ -6,8 +6,8 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/test-webservice-server/pom.xml" />
-        <option value="$PROJECT_DIR$/test-webservice-client/pom.xml" />
+        <option value="$PROJECT_DIR$/test-websocket/pom.xml" />
+        <option value="$PROJECT_DIR$/test-web/pom.xml" />
       </list>
     </option>
   </component>

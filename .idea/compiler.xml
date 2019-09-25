@@ -6,8 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="test-webservice-client" />
-        <module name="test-webservice-server" />
+        <module name="test-websocket" />
+        <module name="test-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -17,7 +17,9 @@
       <module name="test-encrypt" target="1.8" />
       <module name="test-httpclient" target="1.8" />
       <module name="test-java" target="1.8" />
+      <module name="test-jpa" target="1.8" />
       <module name="test-shiro" target="1.8" />
+      <module name="test-web" target="1.8" />
       <module name="test-webservice-client" target="1.8" />
       <module name="test-webservice-server" target="1.8" />
       <module name="test-webservice-service" target="1.8" />
@@ -34,7 +36,9 @@
       <module name="test-encrypt" options="" />
       <module name="test-httpclient" options="-parameters" />
       <module name="test-java" options="-parameters" />
+      <module name="test-jpa" options="-parameters" />
       <module name="test-shiro" options="-parameters" />
+      <module name="test-web" options="-parameters" />
       <module name="test-webservice-client" options="-parameters" />
       <module name="test-webservice-server" options="-parameters" />
       <module name="test-webservice-service" options="-parameters" />

@@ -1,209 +1,123 @@
 package com.lishuo.testwebsocket.config;
 
+import org.springframework.stereotype.Component;
+
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.PathParam;
+import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
+import java.util.concurrent.CopyOnWriteArraySet;
+
 /**
  * @Program：test
  * @Description：
  * @Author：LearnLi
- * @Create:2019-08-09 09:46
+ * @Create:2019-09-23 15:32
  */
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lishuo.testwebsocket.pojo.Tbuser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.websocket.*;
-import javax.websocket.server.PathParam;
-import javax.websocket.server.ServerEndpoint;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-/**
- * WebSocket服务
- */
-@RestController
-@RequestMapping("/websocket")
-@ServerEndpoint(value = "/websocket/{username}", configurator = MyEndpointConfigure.class)
+@ServerEndpoint("/websocket/{username}")
+@Component
 public class WebSocketServer {
-
-    /**
-     * 在线人数
-     */
+    //连接用户数量
     private static int onlineCount = 0;
+    //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
+    private static CopyOnWriteArraySet<WebSocketServer> webSocketSet = new CopyOnWriteArraySet<WebSocketServer>();
+    ///与某个客户端的连接会话，需要通过它来给客户端发送数据
+    private Session session;
 
-    /**
-     * 在线用户的Map集合，key：用户名，value：Session对象
-     */
-    private static Map<String, Session> sessionMap = new HashMap<String, Session>();
 
-    /**
-     * 注入其他类（换成自己想注入的对象）
-     */
-    /*@Autowired
-    private Tbuser tbuser;*/
+    //接收sid
+    private String username = "";
 
-    /**
-     * 连接建立成功调用的方法
-     */
+
+
+
+
+
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String username) {
-        //在webSocketMap新增上线用户
-        sessionMap.put(username, session);
+        this.session = session;
+        webSocketSet.add(this);
+        addOnlineCount();
+        System.out.println("有新窗口开始监听:" + username + ",当前在线人数为" + getOnlineCount());
+        this.username=username;
+        try {
+            sendMessage("连接成功!");
+        } catch (IOException e) {
+            System.out.println("连接失败");
+        }
 
-        //在线人数加加
-        WebSocketServer.onlineCount++;
-
-        //通知除了自己之外的所有人
-        sendOnlineCount(session, "{'type':'onlineCount','onlineCount':" + WebSocketServer.onlineCount + ",username:'" + username + "'}");
     }
 
+
+
+    /**
+     * 群发自定义消息
+     * */
+    public static void sendInfo(String message,@PathParam("username") String username) throws IOException {
+        System.out.println("推送消息到窗口"+username+"，推送内容:"+message);
+        for (WebSocketServer item : webSocketSet) {
+            try {
+                //这里可以设定只推送给这个sid的，为null则全部推送
+                if(username=="all") {
+                    item.sendMessage(message);
+                }else if(item.username.equals(username)){
+                    item.sendMessage(message);
+                }
+            } catch (IOException e) {
+                continue;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    /**
+     * 实现服务器主动推送
+     */
+    public void sendMessage(String message) throws IOException {
+        this.session.getBasicRemote().sendText(message);
+    }
     /**
      * 连接关闭调用的方法
      */
     @OnClose
-    public void onClose(Session session) {
-        //下线用户名
-        String logoutUserName = "";
-
-        //从webSocketMap删除下线用户
-        for (Entry<String, Session> entry : sessionMap.entrySet()) {
-            if (entry.getValue() == session) {
-                sessionMap.remove(entry.getKey());
-                logoutUserName = entry.getKey();
-                break;
-            }
-        }
-
-        //在线人数减减
-        WebSocketServer.onlineCount--;
-
-        //通知除了自己之外的所有人
-        sendOnlineCount(session, "{'type':'onlineCount','onlineCount':" + WebSocketServer.onlineCount + ",username:'" + logoutUserName + "'}");
+    public void onClose() {
+        webSocketSet.remove(this);  //从set中删除
+        subOnlineCount();           //在线数减1
+        System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
     }
 
-    /**
-     * 服务器接收到客户端消息时调用的方法
-     */
-    @OnMessage
-    public void onMessage(String message, Session session) {
-        try {
-            //JSON字符串转 HashMap
-            HashMap hashMap = new ObjectMapper().readValue(message, HashMap.class);
 
-            //消息类型
-            String type = (String) hashMap.get("type");
-
-            //来源用户
-            Map srcUser = (Map) hashMap.get("srcUser");
-
-            //目标用户
-            Map tarUser = (Map) hashMap.get("tarUser");
-
-            //如果点击的是自己，那就是群聊
-            if (srcUser.get("username").equals(tarUser.get("username"))) {
-                //群聊
-                groupChat(session, hashMap);
-            } else {
-                //私聊
-                privateChat(session, tarUser, hashMap);
-            }
-
-            //后期要做消息持久化
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 发生错误时调用
-     */
     @OnError
     public void onError(Session session, Throwable error) {
+        System.out.println("发生错误");
         error.printStackTrace();
     }
 
-    /**
-     * 通知除了自己之外的所有人
-     */
-    private void sendOnlineCount(Session session, String message) {
-        for (Entry<String, Session> entry : sessionMap.entrySet()) {
-            try {
-                if (entry.getValue() != session) {
-                    entry.getValue().getBasicRemote().sendText(message);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+
+
+    public static synchronized int getOnlineCount() {
+        return onlineCount;
     }
 
-    /**
-     * 私聊
-     */
-    private void privateChat(Session session, Map tarUser, HashMap hashMap) throws IOException {
-        //获取目标用户的session
-        Session tarUserSession = sessionMap.get(tarUser.get("username"));
-
-        //如果不在线则发送“对方不在线”回来源用户
-        if (tarUserSession == null) {
-            session.getBasicRemote().sendText("{\"type\":\"0\",\"message\":\"对方不在线\"}");
-        } else {
-            hashMap.put("type", "1");
-            tarUserSession.getBasicRemote().sendText(new ObjectMapper().writeValueAsString(hashMap));
-        }
+    public static synchronized void addOnlineCount() {
+        WebSocketServer.onlineCount++;
     }
 
-    /**
-     * 群聊
-     */
-    private void groupChat(Session session, HashMap hashMap) throws IOException {
-        for (Entry<String, Session> entry : sessionMap.entrySet()) {
-            //自己就不用再发送消息了
-            if (entry.getValue() != session) {
-                hashMap.put("type", "2");
-                entry.getValue().getBasicRemote().sendText(new ObjectMapper().writeValueAsString(hashMap));
-            }
-        }
+    public static synchronized void subOnlineCount() {
+        WebSocketServer.onlineCount--;
     }
 
-    /**
-     * 登录
-     */
-    @RequestMapping("/login/{username}")
-    public ModelAndView login(HttpServletRequest request, @PathVariable String username) {
-        return new ModelAndView("socketChart.html", "username", username);
-    }
-
-    /**
-     * 登出
-     */
-    @RequestMapping("/logout/{username}")
-    public String loginOut(HttpServletRequest request, @PathVariable String username) {
-        return "退出成功！";
-    }
-
-    /**
-     * 获取在线用户
-     */
-    @RequestMapping("/getOnlineList")
-    private List<String> getOnlineList(String username) {
-        List<String> list = new ArrayList<String>();
-        //遍历webSocketMap
-        for (Entry<String, Session> entry : WebSocketServer.sessionMap.entrySet()) {
-            if (!entry.getKey().equals(username)) {
-                list.add(entry.getKey());
-            }
-        }
-        return list;
-    }
 
 }
