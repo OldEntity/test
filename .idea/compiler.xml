@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="test-websocket" />
+        <module name="test-java" />
+        <module name="test-webservice-client" />
         <module name="test-web" />
+        <module name="test-websocket" />
+        <module name="test-webservice-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
