@@ -8,9 +8,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.LongSummaryStatistics;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
@@ -103,6 +101,14 @@ public class TestJavaApplicationTests {
         }
 
 
+    }
+
+
+
+    @Test
+    public void test2(){
+        Map<String,String> map=new HashMap();
+        System.out.println(map.containsKey("aa"));
     }
 
 }

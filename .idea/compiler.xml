@@ -7,19 +7,23 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="test-web" />
-        <module name="test-springboot" />
+        <module name="test-webservice-client" />
         <module name="test-java" />
         <module name="test-websocket" />
+        <module name="test-jpa" />
+        <module name="ocr" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="discovery-cluster" target="1.8" />
+      <module name="ocr" target="1.8" />
       <module name="test-config" target="1.8" />
       <module name="test-config-server" target="1.8" />
       <module name="test-encrypt" target="1.8" />
       <module name="test-httpclient" target="1.8" />
       <module name="test-java" target="1.8" />
       <module name="test-jpa" target="1.8" />
+      <module name="test-ocr" target="1.8" />
       <module name="test-shiro" target="1.8" />
       <module name="test-springboot" target="1.8" />
       <module name="test-web" target="1.8" />
@@ -34,12 +38,14 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="discovery-cluster" options="-parameters" />
+      <module name="ocr" options="-parameters" />
       <module name="test-config" options="-parameters" />
       <module name="test-config-server" options="-parameters" />
       <module name="test-encrypt" options="" />
       <module name="test-httpclient" options="-parameters" />
       <module name="test-java" options="-parameters" />
       <module name="test-jpa" options="-parameters" />
+      <module name="test-ocr" options="-parameters" />
       <module name="test-shiro" options="-parameters" />
       <module name="test-springboot" options="-parameters" />
       <module name="test-web" options="-parameters" />

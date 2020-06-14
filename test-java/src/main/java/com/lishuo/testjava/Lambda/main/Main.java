@@ -25,28 +25,31 @@ interface BuilderMessage {
 public class Main {
 
 
-
     public static void main(String[] args) {
 
-       /* List<Tbuser> list = new ArrayList<>();
+        List<Tbuser> list = new ArrayList<>();
         list.add(new Tbuser("admin", "admin", "Learnli", "0", 22));
         list.add(new Tbuser("user", "user", "比企谷", "1", 15));
         list.add(new Tbuser("user1", "user", "雪之下", "1", 16));
         list.add(new Tbuser("user2", "user", "步", "1", 15));
-
-        list.stream().forEach(tbuser -> System.out.println(tbuser.getAge()));
-        list.stream().forEach(tbuser ->
-                System.out.println(tbuser.getAge()));*/
+        Integer s=1;
+        s=2;
+//        list.stream().forEach(tbuser -> System.out.println(tbuser.getAge()));
+        list.stream().forEach(tbuser ->{
+//            System.out.println(s);
+                //s=tbuser.getAge();
+                }
+        );
 
 //        System.out.println(Main.class.getClass().toString());
-        /*System.out.println(merge(chineseOfArr(new String[]{"贰零壹捌","零壹拾","壹拾陆"})));*/
+//        System.out.println(merge(chineseOfArr(new String[]{"贰零壹捌","零壹拾","壹拾陆"})));
 //        System.out.println(moneyUtil(" $ 123 456 "));
-        File file =new File("d:write.txt");
-        File file1 =new File("d:sss.txt");
+        File file = new File("d:write.txt");
+        File file1 = new File("d:sss.txt");
 
 
         try {
-            copy_1(file,file1);
+            copy_1(file, file1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -54,10 +57,10 @@ public class Main {
 
 
     public static void copy_1(File src, File desc) throws IOException {
-        FileInputStream fis=new FileInputStream(src);
-        FileOutputStream fos=new FileOutputStream(desc);
-        int len=0;
-        while((len=fis.read())!=-1){
+        FileInputStream fis = new FileInputStream(src);
+        FileOutputStream fos = new FileOutputStream(desc);
+        int len = 0;
+        while ((len = fis.read()) != -1) {
             fos.write(len);
         }
         fos.close();

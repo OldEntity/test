@@ -2,11 +2,13 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/discovery-cluster" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ocr" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-config" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-encrypt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-httpclient" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-jpa" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test-ocr" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-shiro" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-springboot" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test-web" charset="UTF-8" />

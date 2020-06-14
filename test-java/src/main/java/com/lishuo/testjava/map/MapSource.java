@@ -12,8 +12,13 @@ import java.util.Map;
 
 public class MapSource {
 
-    Map map=new HashMap();
+
+    public static void main(String[] args) {
+        Map<String,String> map=new HashMap<>();
+        map.put("ss","ss");
+        System.out.println(map.containsKey("ss"));
 
 
+    }
 
 }

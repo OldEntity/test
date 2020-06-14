@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ocr/ocr.iml" filepath="$PROJECT_DIR$/ocr/ocr.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/test.iml" filepath="$PROJECT_DIR$/.idea/test.iml" />
       <module fileurl="file://$PROJECT_DIR$/test-java/test-java.iml" filepath="$PROJECT_DIR$/test-java/test-java.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test-springboot/test-springboot.iml" filepath="$PROJECT_DIR$/test-springboot/test-springboot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test-jpa/test-jpa.iml" filepath="$PROJECT_DIR$/test-jpa/test-jpa.iml" />
       <module fileurl="file://$PROJECT_DIR$/test-web/test-web.iml" filepath="$PROJECT_DIR$/test-web/test-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test-webservice-client/test-webservice-client.iml" filepath="$PROJECT_DIR$/test-webservice-client/test-webservice-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/test-websocket/test-websocket.iml" filepath="$PROJECT_DIR$/test-websocket/test-websocket.iml" />
     </modules>
   </component>

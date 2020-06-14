@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="opencv-2413">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/test-springboot/src/main/resources/lib/opencv-2413.jar!/" />
+      <root url="jar://D:/Software/LearnSoftware/opencv/opencv/build/java/opencv-420.jar!/" />
     </CLASSES>
     <JAVADOC />
     <NATIVE>
@@ -9,7 +9,7 @@
       <root url="file://D:/Software/LearnSoftware/opencv/opencv/build/x64/vc14/bin" />
     </NATIVE>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/test-springboot/src/main/resources/lib/opencv-2413.jar!/" />
+      <root url="jar://D:/Software/LearnSoftware/opencv/opencv/build/java/opencv-420.jar!/" />
     </SOURCES>
   </library>
 </component>

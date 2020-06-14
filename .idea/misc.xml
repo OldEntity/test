@@ -9,10 +9,9 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/test-web/pom.xml" />
+        <option value="$PROJECT_DIR$/ocr/pom.xml" />
         <option value="$PROJECT_DIR$/test-java/pom.xml" />
-        <option value="$PROJECT_DIR$/test-websocket/pom.xml" />
-        <option value="$PROJECT_DIR$/test-springboot/pom.xml" />
+        <option value="$PROJECT_DIR$/test-jpa/pom.xml" />
       </list>
     </option>
   </component>
